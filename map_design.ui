@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>959</width>
+    <width>982</width>
     <height>600</height>
    </rect>
   </property>
@@ -73,6 +73,19 @@
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>20</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>go</string>
+    </property>
+   </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
@@ -119,7 +132,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>959</width>
+     <width>982</width>
      <height>21</height>
     </rect>
    </property>
