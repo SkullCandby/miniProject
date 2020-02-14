@@ -37,8 +37,15 @@ class Map(QMainWindow, Ui_MapsApp):
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_PageUp:
-            sw = str(int(float(self.width_size_txt)) + 1)
-            sl = str(int(float(self.length_size_txt)) + 1)
+            delta = 0
+            if (int(float(self.width_size_txt))) < 1:
+                delta = 0.1
+            elif (int(float(self.width_size_txt))) > 14:
+                delta = 10
+            else:
+                delta = 1
+            sw = str(round(float(self.width_size_txt) + delta, 1))
+            sl = str(round(float(self.length_size_txt) + delta, 1))
             self.width_size.setText(sw)
             self.lenght_size.setText(sl)
             self.do_request()
@@ -51,14 +58,15 @@ class Map(QMainWindow, Ui_MapsApp):
             else:
                 delta = 1
             if (int(float(self.width_size_txt)) - delta) < 0:
+                print(delta)
                 sw = '0.001'
             else:
-                sw = str(int(self.width_size_txt) - delta)
+                sw = str(int(float(self.width_size_txt) - delta))
             if (int(float(self.width_size_txt)) - delta) < 0:
                 print(int(float(self.width_size_txt)))
                 sl = '0.001'
             else:
-                sl = str(int(self.length_size_txt) - delta)
+                sl = str(int(float(self.length_size_txt) - delta))
             self.width_size.setText(sw)
             self.lenght_size.setText(sl)
             self.do_request()
