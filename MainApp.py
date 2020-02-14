@@ -15,7 +15,7 @@ class Map(QMainWindow, Ui_MapsApp):
         self.pushButton.clicked.connect(self.do_request)
 
     def do_request(self):
-        width_txt = self.width.text()
+        width_txt = self._width.text()
         length_txt = self.length.text()
         self.width_size_txt = self.width_size.text()
         self.length_size_txt = self.lenght_size.text()
@@ -75,8 +75,18 @@ class Map(QMainWindow, Ui_MapsApp):
             self.width_size.setText(sw)
             self.lenght_size.setText(sl)
             self.do_request()
-
-
+        if event.key() == Qt.Key_Up:
+            if float(self._width.text()) + float(self.width_size.text()) <= 90:
+                self._width.setText(str(float(self._width.text()) + float(self.width_size.text())))
+                print(1)
+            print(str(float(self._width.text()) + float(self.width_size.text())))
+            self.do_request()
+        elif event.key() == Qt.Key_Down:
+            pass
+        elif event.key() == Qt.Key_Left:
+            pass
+        elif event.key() == Qt.Key_Right:
+            pass
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Map()
