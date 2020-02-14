@@ -40,8 +40,10 @@ class Map(QMainWindow, Ui_MapsApp):
             delta = 0
             if (int(float(self.width_size_txt))) < 1:
                 delta = 0.1
+            # Проверяю только один параментр потому, что они равны
             elif (int(float(self.width_size_txt))) >= 15 and (int(float(self.width_size_txt)) + 10) < 90:
                 delta = 10
+            # Проверяю только один параментр потому, что они равны
             elif (int(float(self.width_size_txt)) + 1) < 90:
                 delta = 1
             sw = str(round(float(self.width_size_txt) + delta, 1))
@@ -51,17 +53,21 @@ class Map(QMainWindow, Ui_MapsApp):
             self.do_request()
         if event.key() == Qt.Key_PageDown:
             delta = 0
+            # Проверяю только один параментр потому, что они равны
             if (float(self.width_size_txt)) <= 1:
                 delta = 0.1
+            # Проверяю только один параментр потому, что они равны
             elif (int(float(self.width_size_txt))) > 15:
                 delta = 10
             else:
                 delta = 1
+            # Проверяю только один параментр потому, что они равны
             if (float(self.width_size_txt) - delta) < 0:
                 print(delta)
                 sw = '0.001'
             else:
                 sw = str(round(float(self.width_size_txt) - delta, 1))
+            # Проверяю только один параментр потому, что они равны
             if (float(self.width_size_txt) - delta) < 0:
                 sl = '0.001'
             else:
