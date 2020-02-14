@@ -40,9 +40,9 @@ class Map(QMainWindow, Ui_MapsApp):
             delta = 0
             if (int(float(self.width_size_txt))) < 1:
                 delta = 0.1
-            elif (int(float(self.width_size_txt))) > 14:
+            elif (int(float(self.width_size_txt))) >= 15 and (int(float(self.width_size_txt)) + 10) < 90:
                 delta = 10
-            else:
+            elif (int(float(self.width_size_txt)) + 1) < 90:
                 delta = 1
             sw = str(round(float(self.width_size_txt) + delta, 1))
             sl = str(round(float(self.length_size_txt) + delta, 1))
@@ -51,22 +51,21 @@ class Map(QMainWindow, Ui_MapsApp):
             self.do_request()
         if event.key() == Qt.Key_PageDown:
             delta = 0
-            if (int(float(self.width_size_txt))) <= 1:
+            if (float(self.width_size_txt)) <= 1:
                 delta = 0.1
-            elif (int(float(self.width_size_txt))) >= 14:
+            elif (int(float(self.width_size_txt))) > 15:
                 delta = 10
             else:
                 delta = 1
-            if (int(float(self.width_size_txt)) - delta) < 0:
+            if (float(self.width_size_txt) - delta) < 0:
                 print(delta)
                 sw = '0.001'
             else:
-                sw = str(int(float(self.width_size_txt) - delta))
-            if (int(float(self.width_size_txt)) - delta) < 0:
-                print(int(float(self.width_size_txt)))
+                sw = str(round(float(self.width_size_txt) - delta, 1))
+            if (float(self.width_size_txt) - delta) < 0:
                 sl = '0.001'
             else:
-                sl = str(int(float(self.length_size_txt) - delta))
+                sl = str(round(float(self.length_size_txt) - delta, 1))
             self.width_size.setText(sw)
             self.lenght_size.setText(sl)
             self.do_request()
