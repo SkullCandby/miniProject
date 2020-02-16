@@ -31,7 +31,11 @@ class Map(QMainWindow, Ui_MapsApp):
             file.write(response.content)
         pixmap = QPixmap(self.map_file)
         self.img_lbl.setPixmap(pixmap)
-
+        self._width.setDisabled(True)
+        self.length.setDisabled(True)
+        self.width_size.setDisabled(True)
+        self.lenght_size.setDisabled(True)
+        self.pushButton.setDisabled(True)
     def closeEvent(self, event):
         os.remove(self.map_file)
 
@@ -76,17 +80,38 @@ class Map(QMainWindow, Ui_MapsApp):
             self.lenght_size.setText(sl)
             self.do_request()
         if event.key() == Qt.Key_Up:
-            if float(self._width.text()) + float(self.width_size.text()) <= 90:
-                self._width.setText(str(float(self._width.text()) + float(self.width_size.text())))
+            if float(self.length.text()) + float(self.lenght_size.text()) <= 90:
+                self.length.setText(str(float(self.length.text()) + float(self.lenght_size.text())))
                 print(1)
+            else:
+                self.length.setText(str(float(self.length.text()) + float(self.lenght_size.text() - 90)))
             print(str(float(self._width.text()) + float(self.width_size.text())))
             self.do_request()
         elif event.key() == Qt.Key_Down:
-            pass
+            if float(self.length.text()) - float(self.lenght_size.text()) >= -90:
+                self.length.setText(str(float(self.length.text()) - float(self.lenght_size.text())))
+                print(1)
+            else:
+                self.length.setText(str(float(self.length.text()) - float(self.lenght_size.text() + 90)))
+            print(str(float(self._width.text()) - float(self.width_size.text())))
+            self.do_request()
         elif event.key() == Qt.Key_Left:
-            pass
+            if float(self._width.text()) - float(self.width_size.text()) >= -90:
+                self._width.setText(str(float(self._width.text()) - float(self.width_size.text())))
+                print(1)
+            else:
+                self._width.setText(str(float(self._width.text()) + float(self.width_size.text()) + 90))
+            print(str(float(self._width.text()) + float(self.width_size.text())))
+            self.do_request()
         elif event.key() == Qt.Key_Right:
-            pass
+            print(1)
+            if float(self._width.text()) + float(self.width_size.text()) <= 90:
+                self._width.setText(str(float(self._width.text()) + float(self.width_size.text())))
+                print(1)
+            else:
+                self._width.setText(str(float(self._width.text()) - float(self.width_size.text()) - 90))
+            print(str(float(self._width.text()) + float(self.width_size.text())))
+            self.do_request()
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Map()
