@@ -36,6 +36,8 @@ class Map(QMainWindow, Ui_MapsApp):
         self.width_size.setDisabled(True)
         self.lenght_size.setDisabled(True)
         self.pushButton.setDisabled(True)
+        self.view_box.setDisabled(True)
+
     def closeEvent(self, event):
         os.remove(self.map_file)
 
@@ -112,6 +114,8 @@ class Map(QMainWindow, Ui_MapsApp):
                 self._width.setText(str(float(self._width.text()) - float(self.width_size.text()) - 90))
             print(str(float(self._width.text()) + float(self.width_size.text())))
             self.do_request()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Map()
