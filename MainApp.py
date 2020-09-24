@@ -13,20 +13,28 @@ class Map(QMainWindow, Ui_MapsApp):
         super().__init__()
         self.setupUi(self)
         self.pushButton.clicked.connect(self.do_request)
+        self.dd = {'map': 'map',
+                   'satellite': 'sat',
+                   'hybrid': 'sat,skl'}
 
     def do_request(self):
         width_txt = self._width.text()
         length_txt = self.length.text()
         self.width_size_txt = self.width_size.text()
         self.length_size_txt = self.lenght_size.text()
-        map_request = f"http://static-maps.yandex.ru/1.x/?ll={width_txt},{length_txt}&spn={self.length_size_txt},{self.width_size_txt}&l=map"
+        view = self.dd[self.view_box.currentText()]
+        print(view)
+        map_request = f"http://static-maps.yandex.ru/1.x/?ll={width_txt},{length_txt}&spn={self.length_size_txt},{self.width_size_txt}&l={view}"
         response = requests.get(map_request)
         if not response:
             print("Ошибка выполнения запроса:")
             print(map_request)
             print("Http статус:", response.status_code, "(", response.reason, ")")
             sys.exit(1)
-        self.map_file = "map.png"
+        if view == 'sat':
+            self.map_file = "map.jpg"
+        else:
+            self.map_file = "map.png"
         with open(self.map_file, "wb") as file:
             file.write(response.content)
         pixmap = QPixmap(self.map_file)
@@ -82,24 +90,28 @@ class Map(QMainWindow, Ui_MapsApp):
             self.lenght_size.setText(sl)
             self.do_request()
         if event.key() == Qt.Key_Up:
-            if float(self.length.text()) + float(self.lenght_size.text()) <= 90:
+            if float(self.length.text()) + float(self.lenght_size.text()) <= 85:
+                print(2)
                 self.length.setText(str(float(self.length.text()) + float(self.lenght_size.text())))
                 print(1)
             else:
-                self.length.setText(str(float(self.length.text()) + float(self.lenght_size.text() - 90)))
+                print(float(self.length.text()) + float(self.lenght_size.text()) - 85)
+                # print(str(float(self.length.text()) + float(self.lenght_size.text() - 85)))
+                # self.length.setText(str(float(self.length.text()) + float(self.lenght_size.text() - 85)))
             print(str(float(self._width.text()) + float(self.width_size.text())))
             self.do_request()
         elif event.key() == Qt.Key_Down:
-            if float(self.length.text()) - float(self.lenght_size.text()) >= -90:
+            if float(self.length.text()) - float(self.lenght_size.text()) >= -85:
                 self.length.setText(str(float(self.length.text()) - float(self.lenght_size.text())))
                 print(1)
             else:
-                self.length.setText(str(float(self.length.text()) - float(self.lenght_size.text() + 90)))
-            print(str(float(self._width.text()) - float(self.width_size.text())))
+                print(str(abs(float(self._width.text())) + abs(float(self.width_size.text())) - 85))
+                self._width.setText(str(float(self._width.text()) + float(self.width_size.text()) - 85))
             self.do_request()
         elif event.key() == Qt.Key_Left:
-            if float(self._width.text()) - float(self.width_size.text()) >= -90:
-                self._width.setText(str(float(self._width.text()) - float(self.width_size.text())))
+            if float(self.length.text()) - float(self.length_size.text()) <= -85:
+                print(str(abs(float(self._width.text())) + abs(float(self.width_size.text())) - 85))
+                self.length.setText(str(float(self.length.text()) + float(self.width_size.text()) - 85))
                 print(1)
             else:
                 self._width.setText(str(float(self._width.text()) + float(self.width_size.text()) + 90))
@@ -114,6 +126,14 @@ class Map(QMainWindow, Ui_MapsApp):
                 self._width.setText(str(float(self._width.text()) - float(self.width_size.text()) - 90))
             print(str(float(self._width.text()) + float(self.width_size.text())))
             self.do_request()
+
+        if int(event.modifiers()) == (Qt.AltModifier + Qt.ShiftModifier):
+            self._width.setEnabled(True)
+            self.length.setEnabled(True)
+            self.width_size.setEnabled(True)
+            self.lenght_size.setEnabled(True)
+            self.pushButton.setEnabled(True)
+            self.view_box.setEnabled(True)
 
 
 if __name__ == '__main__':
